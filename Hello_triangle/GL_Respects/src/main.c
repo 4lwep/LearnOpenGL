@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include<stdbool.h>
 
+bool line_mode = false;
+
 float vertices[] = {
     -0.17f, 0.6f, 0.0f, //top right body
     -0.17f, -0.6f, 0.0f, //bottom right body
@@ -50,6 +52,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    
+    if (key == GLFW_KEY_W && action == GLFW_PRESS){
+        if (!line_mode){
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            line_mode = true;
+        } else {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            line_mode = false;
+        }
+        
+    }
+    
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
@@ -116,6 +130,8 @@ int main(){
 
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    
 
     while(!glfwWindowShouldClose(window)){
         
